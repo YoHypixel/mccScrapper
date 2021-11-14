@@ -1,9 +1,12 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+import time
 
 
 def main():
-    get_team_players("Red Rabbits")
+    x = get_team_players('red rabbits')
+
+    print(x)
 
 
 def get_team_players(team):
@@ -21,13 +24,135 @@ def get_team_players(team):
     else:
         driver = webdriver.Chrome()
         driver.get("https://mcc.live")
+        time.sleep(5)
         elem = driver.find_element(By.ID, 'app-body')
-        print(elem.text)
+        elem = elem.find_element(By.ID, 'app-root')
+        elem = elem.find_element(By.CLASS_NAME, 'container')
+        elem = elem.find_element(By.CLASS_NAME, 'flexbox')
+        elem = elem.find_element(By.XPATH, '//*[@id="app-root"]/div[4]/div/div[1]')
+        elem = elem.find_element(By.XPATH, '//*[@id="app-root"]/div[4]/div/div[1]/div[2]')
+        elem = elem.find_element(By.XPATH, '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div')
+        elem = elem.find_element(By.XPATH, '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul')
+        counter = 1
+        while counter < 10:
+            team_name = elem.find_element(By.XPATH,
+                                          f'//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[{counter}]/div/div/div[1]/h2/span')
+            if team_name.text.lower() == team:
+                break
+
+            counter = counter + 1
+
+        elem = elem.find_element(By.XPATH,
+                                 f'//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[{counter}]/div/div/div[2]/div[1]/a/img')
+        team_player1 = elem.get_attribute("alt").split(",", 1)
+
+        elem = elem.find_element(By.XPATH,
+                                 f'//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[{counter}]/div/div/div[2]/div[2]/a/img')
+        team_player2 = elem.get_attribute("alt").split(",", 1)
+
+        elem = elem.find_element(By.XPATH,
+                                 f'//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[{counter}]/div/div/div[2]/div[3]/a/img')
+        team_player3 = elem.get_attribute("alt").split(",", 1)
+
+        elem = elem.find_element(By.XPATH,
+                                 f'//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[{counter}]/div/div/div[2]/div[4]/a/img')
+        team_player4 = elem.get_attribute("alt").split(",", 1)
+
+        team_players = [team_player1[0], team_player2[0], team_player3[0], team_player4[0]]
+
+        return team_players
+
+
+def get_team_positions():
+    driver = webdriver.Chrome()
+    driver.get("https://mcc.live")
+    time.sleep(5)
+    elem = driver.find_element(By.ID, 'app-body')
+    elem = elem.find_element(By.ID, 'app-root')
+    elem = elem.find_element(By.CLASS_NAME, 'container')
+    elem = elem.find_element(By.CLASS_NAME, 'flexbox')
+    elem = elem.find_element(By.XPATH, '//*[@id="app-root"]/div[4]/div/div[1]')
+    elem = elem.find_element(By.XPATH, '//*[@id="app-root"]/div[4]/div/div[1]/div[2]')
+
+    team1 = [
+        elem.find_element(By.XPATH, '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[1]/div/div/h1').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[1]/div/div/div[1]/h2/span').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[1]/div/div/div[1]/h3').text]
+
+    team2 = [
+        elem.find_element(By.XPATH, '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[2]/div/div/h1').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[2]/div/div/div[1]/h2/span').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[2]/div/div/div[1]/h3').text]
+
+    team3 = [
+        elem.find_element(By.XPATH, '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[3]/div/div/h1').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[3]/div/div/div[1]/h2/span').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[3]/div/div/div[1]/h3').text]
+
+    team4 = [
+        elem.find_element(By.XPATH, '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[4]/div/div/h1').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[4]/div/div/div[1]/h2/span').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[4]/div/div/div[1]/h3').text]
+
+    team5 = [
+        elem.find_element(By.XPATH, '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[5]/div/div/h1').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[5]/div/div/div[1]/h2/span').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[5]/div/div/div[1]/h3').text]
+
+    team6 = [
+        elem.find_element(By.XPATH, '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[6]/div/div/h1').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[6]/div/div/div[1]/h2/span').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[6]/div/div/div[1]/h3').text]
+
+    team7 = [
+        elem.find_element(By.XPATH, '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[7]/div/div/h1').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[7]/div/div/div[1]/h2/span').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[7]/div/div/div[1]/h3').text]
+
+    team8 = [
+        elem.find_element(By.XPATH, '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[8]/div/div/h1').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[8]/div/div/div[1]/h2/span').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[8]/div/div/div[1]/h3').text]
+
+    team9 = [
+        elem.find_element(By.XPATH, '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[9]/div/div/h1').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[9]/div/div/div[1]/h2/span').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[9]/div/div/div[1]/h3').text]
+
+    team10 = [
+        elem.find_element(By.XPATH, '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[10]/div/div/h1').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[10]/div/div/div[1]/h2/span').text,
+        elem.find_element(By.XPATH,
+                          '//*[@id="app-root"]/div[4]/div/div[1]/div[2]/div/ul/li[10]/div/div/div[1]/h3').text]
+
+    team_list = [team1, team2, team3, team4, team5, team6, team7, team8, team9, team10]
+
+    return team_list
 
 
 def get_all_players():
     driver = webdriver.Chrome()
     driver.get("https://mcc.live")
+    time.sleep(5)
     assert "MCC" in driver.title
     elem = driver.find_element(By.ID, 'app-body')
     elem = elem.find_element(By.ID, 'app-root')
