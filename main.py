@@ -1,6 +1,5 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-import time
 
 
 def main():
@@ -23,6 +22,7 @@ def get_team_players(team):
         driver = webdriver.Chrome()
         driver.get("https://mcc.live")
         elem = driver.find_element(By.ID, 'app-body')
+        print(elem.text)
 
 
 def get_all_players():
@@ -287,10 +287,10 @@ def get_all_players():
                    player22, player23, player24, player25, player26, player27, player28, player29, player30, player31,
                    player32, player33, player34, player35, player36, player37, player38, player39, player40]
 
-    return all_players
-
     assert "No results found." not in driver.page_source
     driver.close()
+
+    return all_players
 
 
 if __name__ == '__main__':
